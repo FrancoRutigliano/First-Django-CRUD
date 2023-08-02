@@ -1,7 +1,17 @@
+# Virtual environment
 venv
+requirements.txt
 
-db.sqlite3
+# ---------------
 
+*.sqlite3
+
+# -----------
 **/__pycache__
+*.pyc
+*.pyo
+*.pyd
 
-superuser.txt
+#Archivos Logs
+*.log
+
