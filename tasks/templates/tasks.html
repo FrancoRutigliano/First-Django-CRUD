@@ -2,34 +2,41 @@
 
 {% block content %}
 
-<h1>Tareas Pendientes</h1>
+<main class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
 
-<ul>
+      <h1 class="text-center display-3 mb-5 py-5">Tareas Pendientes</h1>
 
-  {% for task in tasks %}
+      <ul class="list-group">
 
-  <li>
+        {% for task in tasks %}
 
-    <a href="{% url 'task_detail' task.id %}">
+        <a class="list-group-item" href="{% url 'task_detail' task.id %}">
 
-      {% if task.important %}
-      <strong>{{task.title}}</strong>
+          <header class="d-flex justify-content-between">
+            {% if task.important %}
+            <h1 class="fw-bold text-success">{{task.title}}</h1>
+            <p>{{task.user.username}}</p>
+            {% else %}
+            <h1 class="fw-bold">{{task.title}}</h1>
+            <p>{{task.user.username}}</p>
+            {% endif %}
+          </header>
 
-      {% else %}
-      {{tasks.title}}
+          <p>{{task.description}}</p>
 
-      {% endif %}
 
-      <p>{{task.description}}</p>
-      <p>{{task.user.username}}</p>
+          <p>{{task.dateCompleted|date:'M j Y:i'}}</p>
 
-      <p>{{task.dateCompleted|date:'M j Y:i'}}</p>
-    </a>
+        </a>
 
-  </li>
+        {% endfor %}
 
-  {% endfor %}
+      </ul>
 
-</ul>
+    </div>
+  </div>
+</main>
 
 {% endblock %}
