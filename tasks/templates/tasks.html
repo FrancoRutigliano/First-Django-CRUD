@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1>Tareas</h1>
+<h1>Tareas Pendientes</h1>
 
 <ul>
 
@@ -16,7 +16,7 @@
       <strong>{{task.title}}</strong>
 
       {% else %}
-
+      {{task.id}}
       {{tasks.title}}
 
       {% endif %}

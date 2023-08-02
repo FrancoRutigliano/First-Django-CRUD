@@ -5,6 +5,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 from .forms import TaskForm
 from .models import Task
+from django.utils import timezone
 
 
 def home(request):
@@ -36,9 +37,19 @@ def signup(request):
             'error': 'Las contraseñas no coinciden.'
         })
 
+# LookUp a la DB para listar registros nulos dateComplete__isnull
+
 
 def tasks(request):
-    tasks = Task.objects.all()
+    tasks = Task.objects.filter(user=request.user, dateCompleted__isnull=True)
+    return render(request, 'tasks.html', {
+        'tasks': tasks
+    })
+
+
+def tasks_completed(request):
+    tasks = Task.objects.filter(
+        user=request.user, dateComplete__isnull=False).order_by('-datecompleted')
     return render(request, 'tasks.html', {
         'tasks': tasks
     })
@@ -82,8 +93,23 @@ def task_detail(request, task_id):
             return render(request, 'tasks_detail.html', {
                 'task': task,
                 'form': form,
-                'error': "Error al actualizar las tareas"
+                'error': 'Error actualizando la tarea'
             })
+
+
+def complete_task(request, task_id):
+    task = get_object_or_404(Task, pk=task_id, user=request.user)
+    if request.method == 'POST':
+        task.dateCompleted = timezone.now()
+        task.save()
+        return redirect('tasks')
+
+
+def delete_task(request, task_id):
+    task = get_object_or_404(Task, pk=task_id, user=request.user)
+    if request.method == 'POST':
+        task.delete()
+        return redirect('tasks')
 
 
 def signout(request):
