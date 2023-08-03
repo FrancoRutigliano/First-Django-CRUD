@@ -1,16 +1,5 @@
-# Virtual environment
 venv
+db.sqlite3
+__pycache__
 
-# ---------------
-
-*.sqlite3
-
-# -----------
-**/__pycache__
-*.pyc
-*.pyo
-*.pyd
-
-#Archivos Logs
-*.log
 
